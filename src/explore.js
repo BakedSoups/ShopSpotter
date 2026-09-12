@@ -41,7 +41,10 @@ export function setupExplore(map, selection) {
   let debounce;
 
   function focus(geometry) {
-    map.fitBounds(geometryBounds(geometry), { padding: 70, maxZoom: 17, duration: 900 });
+    const bounds = geometryBounds(geometry);
+    const lng = (bounds[0][0] + bounds[1][0]) / 2;
+    const lat = (bounds[0][1] + bounds[1][1]) / 2;
+    map.fitBounds([[lng - 0.0035, lat - 0.0028], [lng + 0.0035, lat + 0.0028]], { padding: 35, maxZoom: 16.5, duration: 900 });
   }
 
   async function search() {
@@ -74,7 +77,6 @@ export function setupExplore(map, selection) {
         button.append(title, subtitle);
         button.addEventListener('click', () => {
           selection.select(parcel);
-          focus(parcel.shape);
           results.replaceChildren();
           searchMessage.textContent = 'Selected property shown below.';
           document.querySelector('#sidebar').scrollTop = 0;
@@ -102,6 +104,7 @@ export function setupExplore(map, selection) {
     photoMessage.textContent = 'Select a property to see photos of its surroundings.';
   });
   document.addEventListener('property-selected', async event => {
+    focus(event.detail.shape);
     photoRequest?.abort();
     const controller = new AbortController();
     photoRequest = controller;

@@ -4,6 +4,7 @@ import './style.css';
 import { setupParcels } from './parcels.js';
 import { setupVacantLots } from './vacant-lots.js';
 import { setupExplore } from './explore.js';
+import { setupSuggestions } from './suggestions.js';
 
 // Mainland SF's bounding rectangle. Mapbox constrains both the camera and
 // zoom-out level to these bounds, including after viewport resizes.
@@ -22,7 +23,7 @@ let activeMap;
 function applyTheme() {
   document.documentElement.dataset.theme = theme;
   themeToggle.checked = theme === 'dark';
-  document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#19231f' : '#f6f7f3';
+  document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#191e21' : '#ffffff';
 }
 applyTheme();
 themeToggle.addEventListener('change', () => {
@@ -61,6 +62,7 @@ if (!__MAP_BOX_TOKEN__) {
     activeMap = map;
     const selection = setupParcels(map);
     setupExplore(map, selection);
+    setupSuggestions(map);
     setupVacantLots(map);
     // Styles and layout can settle after Mapbox creates its canvas. Keep the
     // drawing surface in sync with the container, not just window resizes.

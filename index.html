@@ -3,16 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f6f7f3" />
-    <meta name="description" content="A little closer to San Francisco. Explore the city with ShopSpotter." />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="description" content="Explore San Francisco properties, vacant lots, and nearby businesses with ShopSpotter." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>ShopSpotter · San Francisco</title>
   </head>
   <body>
     <main class="app">
       <div id="map" aria-label="Interactive map of San Francisco"></div>
       <header class="topbar">
-        <a class="brand" href="/" aria-label="ShopSpotter home"><span class="brand-icon" aria-hidden="true">S<span></span></span>ShopSpotter<span class="beta">EARLY DAYS</span></a>
-        <div class="location"><span class="live-dot"></span>San Francisco, CA</div>
+        <a class="brand" href="/" aria-label="ShopSpotter home"><img class="brand-icon" src="/favicon.svg" width="34" height="34" alt="" />ShopSpotter<span class="beta">PROPERTY EXPLORER</span></a>
+        <div class="location"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>San Francisco, CA</div>
       </header>
       <label class="theme-control">
         <span>Light</span>
@@ -29,10 +30,10 @@
       <button id="reset-view" class="reset" disabled><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="6"/><path d="M12 2v4m0 12v4M2 12h4m12 0h4"/></svg>Back to city view</button>
       <button id="sidebar-toggle" class="sidebar-toggle" aria-expanded="true" aria-controls="sidebar">Hide panel</button>
       <aside id="sidebar" class="sidebar" aria-label="Explore San Francisco properties">
-        <div class="sidebar-intro"><span class="section-kicker">FIND YOUR NEXT PLACE</span><h1>A little possibility.</h1><p>Explore a block. Imagine what comes next.</p></div>
+        <div class="sidebar-intro"><span class="section-kicker">SAN FRANCISCO PROPERTIES</span><h1>Explore the city.</h1><p>Find a property. Understand the block around it.</p></div>
         <form id="property-search" role="search">
           <label class="sr-only" for="search-input">Search SF addresses, blocks, or parcels</label>
-          <div class="search-field"><input id="search-input" type="search" placeholder="Address, block, or parcel…" autocomplete="off" maxlength="100" /><button type="submit" aria-label="Search properties">⌕</button></div>
+          <div class="search-field"><input id="search-input" type="search" placeholder="Address, block, or parcel…" autocomplete="off" maxlength="100" /><button type="submit" aria-label="Search properties"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></button></div>
         </form>
         <p id="search-message" class="helper" role="status">Try “Block 3720”, “101 1st St”, or a parcel ID.</p>
         <div id="search-results" class="search-results"></div>
@@ -46,17 +47,19 @@
           <a href="https://data.sf.gov/d/acdm-wktn" target="_blank" rel="noopener noreferrer">SF public parcel records ↗</a>
         </div>
       </section>
-        <section class="photos-section" aria-labelledby="photos-title"><h2 id="photos-title">Around this place</h2><p id="photo-message" class="helper" role="status">Select a property to see photos of its surroundings.</p><div id="property-photos" class="photo-grid"></div></section>
         <section class="ideas-section" aria-labelledby="ideas-title">
-          <div class="ideas-heading"><h2 id="ideas-title">What could it be?</h2><span>4 STARTER IDEAS</span></div>
-          <p class="helper">A few possibilities to imagine here. Concepts only; zoning, permits, and site suitability are not yet assessed.</p>
-          <div class="idea-grid">
-            <article class="idea-card restaurant"><span class="idea-icon" aria-hidden="true">♨</span><h3>Neighborhood restaurant</h3><p>A local kitchen, shared tables, and a reason to stay a while.</p><span class="idea-tag">FOOD & COMMUNITY</span></article>
-            <article class="idea-card cafe"><span class="idea-icon" aria-hidden="true">☕</span><h3>Café & work lounge</h3><p>Morning coffee and a welcoming place to meet or work.</p><span class="idea-tag">EVERYDAY GATHERING</span></article>
-            <article class="idea-card garden"><span class="idea-icon" aria-hidden="true">❋</span><h3>Community garden</h3><p>Shared growing beds, a little green, and room to connect.</p><span class="idea-tag">GREEN SPACE</span></article>
-            <article class="idea-card market"><span class="idea-icon" aria-hidden="true">▦</span><h3>Pop-up market</h3><p>A flexible home for local makers, food stalls, and weekends.</p><span class="idea-tag">LOCAL BUSINESS</span></article>
-          </div>
+          <div class="ideas-heading"><h2 id="ideas-title">Potential uses</h2><span class="prototype-badge">PROTOTYPE</span></div>
+          <p id="suggestion-context" class="helper">Select a lot to explore four possibilities for its block.</p>
+          <div class="suggestion-toolbar"><span>4 possibilities · click for reasoning</span><button id="resample-ideas" type="button" disabled>Shuffle sample ↻</button></div>
+          <div id="suggestion-grid" class="suggestion-grid"></div>
         </section>
+        <section class="nearby-section" aria-labelledby="nearby-title">
+          <h2 id="nearby-title">Nearby businesses</h2>
+          <p id="nearby-message" class="helper" role="status">Select a lot to see existing businesses within 350 m.</p>
+          <ol id="nearby-businesses" class="nearby-businesses"></ol>
+          <a class="source-link" href="https://data.sf.gov/d/g8m3-pdis" target="_blank" rel="noopener noreferrer">SF registered businesses ↗</a>
+        </section>
+        <section class="photos-section" aria-labelledby="photos-title"><h2 id="photos-title">Street & neighborhood photos</h2><p id="photo-message" class="helper" role="status">Select a property to see photos of its surroundings.</p><div id="property-photos" class="photo-grid"></div></section>
       </aside>
       <div id="map-status" class="status" role="status">Loading San Francisco…</div>
     </main>

@@ -12,7 +12,7 @@ export function setupVacantLots(map) {
     if (!map.getSource(SOURCE)) {
       map.addSource(SOURCE, { type: 'geojson', data, attribution: '<a href="https://data.sf.gov/d/wv5m-vpq2" target="_blank" rel="noopener">SF assessor vacant lots</a>' });
       const before = map.getLayer('property-fill') ? 'property-fill' : map.getStyle().layers.find(layer => layer.type === 'symbol')?.id;
-      map.addLayer({ id: LAYERS[0], type: 'fill', source: SOURCE, filter: ['==', ['geometry-type'], 'Polygon'], paint: { 'fill-color': '#12b8c4', 'fill-opacity': 0.4 } }, before);
+      map.addLayer({ id: LAYERS[0], type: 'fill', source: SOURCE, filter: ['==', ['geometry-type'], 'Polygon'], paint: { 'fill-color': '#12b8c4', 'fill-opacity': 0.18 } }, before);
       map.addLayer({ id: LAYERS[1], type: 'line', source: SOURCE, filter: ['==', ['geometry-type'], 'Polygon'], paint: { 'line-color': '#12b8c4', 'line-width': 2 } }, before);
       // Point fallbacks keep records visible when no active boundary matches.
       map.addLayer({ id: LAYERS[2], type: 'circle', source: SOURCE, filter: ['==', ['geometry-type'], 'Point'], paint: { 'circle-color': '#12b8c4', 'circle-radius': 5, 'circle-stroke-color': '#fff', 'circle-stroke-width': 1 } }, before);
